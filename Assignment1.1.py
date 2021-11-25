@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 np.random.seed(1)
 random.seed(1)
@@ -37,8 +38,8 @@ runs = []
 # plt.ylabel('Average number of e-VTOLs at i = 3')
 # plt.show()
 
-#a.
-
+#a&b.
+# reg_2 = 0
 # while numb_of_runs <= 2000:
 #     dist = [0, 0, 0, 0, 0, 0]
 #     while sum(dist) < vtols:
@@ -49,8 +50,12 @@ runs = []
 #     i.append(dist[1])
 #     average.append(np.average(i))
 #     runs.append(numb_of_runs)
+#     if dist[1] > dist[2]:
+#       reg2 += 1
 #     numb_of_runs += 1
 #
+# prob_reg2_reg3 = reg2/2000
+# print(prob_reg2_reg3)
 # print(np.average(average))
 
 #b.
@@ -68,4 +73,8 @@ while numb_of_runs <= 2000:
             t_delay += sep - abs(arrival_time_dist[i] - arrival_time_dist[i+1])
     T_delay.append(t_delay)
 
+var = np.var(T_delay)
+print(var)
 print(np.average(T_delay))
+sns.histplot(data = T_delay)
+plt.show()
