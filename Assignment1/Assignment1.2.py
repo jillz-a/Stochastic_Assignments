@@ -32,6 +32,9 @@ for i in range(1,9):
         v_brake.append(v)
     v_brakes[:,i-1] = v_brake
 
-print(v_brakes)
+
+v_brakes = np.concatenate(v_brakes)
+v_brakes = v_brakes[v_brakes != 0.0]
 sns.histplot(v_brakes)
+
 plt.show()
