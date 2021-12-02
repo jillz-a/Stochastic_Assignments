@@ -31,16 +31,21 @@ for i in range(1,9):
 
 v_total = np.concatenate(v_brakes)
 v_total = v_total[v_total != 0.0]
-# sns.histplot(v_total)
+sns.histplot(v_total, binwidth=0.003)
+
+plt.show()
 
 n = len(v_total)
 alpha = np.linspace(0.001, 1, 999)
 
 likelihood = n*(alpha - 1)*sum([np.log(y) for y in v_total])/n - n*alpha - n*np.log(gamma(alpha)) - n*alpha*np.log(sum(v_total)/n) + n*alpha*np.log(alpha)
 plt.plot(alpha, likelihood)
+plt.xlabel('alpha')
+plt.ylabel('Likelihood')
+
 alpha_max = alpha[np.where(likelihood == max(likelihood))]
 beta = (sum(v_total)/n) / alpha_max
 print('alpha = ',alpha_max)
 print('beta = ',beta)
 
-plt.show()
+plt.axvline(x = alpha_max, label = 'MLE alpha', color = 'r')
