@@ -85,25 +85,49 @@ CI = (mean - 1.96 * np.sqrt(var / 2000), mean + 1.96 * np.sqrt(var / 2000))
 print('Mean Time To Failure:', mean)
 print('Confidence Interval:', CI)
 
+
+#b & c
 iteration = 0
 cycles = 0
 X_i = 0
 X_i_lst = []
+unscheduled_cycles = []
+lst_200 = []
+lst_250 = []
 while iteration <= 5000:
     cycles += 1
     v = np.random.gamma(alpha_max, beta)
     X_i += v
+    if X_i > 1:
+        if cycles < 200:
+            unscheduled_cycles.append(cycles)
+        X_i_lst.append(X_i)
+        iteration += 1
+        cycles = 0
+        X_i = 0
+    if cycles == 200:
+        lst_200.append(X_i)
     if cycles == 250:
+        lst_250.append(X_i)
         X_i_lst.append(X_i)
         iteration += 1
         cycles = 0
         X_i = 0
 
-prob = len([i for i in X_i_lst if i < 1.0])/len(X_i_lst)
+prob = len(lst_250)/len(lst_200)
 print('Probability of 250 cycles without failing:', prob)
+
+scheduled = len([i for i in lst_200 if i <= 1.0])
+unscheduled = len(unscheduled_cycles)
+ratio = unscheduled / scheduled
+mean_unscheduled = np.mean(unscheduled_cycles)
+print('Unscheduled againt schedules replacements ratio:', ratio)
+print('Mean number of flight cycles unscheduled:', mean_unscheduled)
+
 mean = np.mean(X_i_lst)
 var = np.var(X_i_lst)
-
-CI = (mean - 1.96 * np.sqrt(var / 2000), mean + 1.96 * np.sqrt(var / 2000))
+CI = (mean - 1.96 * np.sqrt(var / 5000), mean + 1.96 * np.sqrt(var / 5000))
 print('Mean Time To Failure:', mean)
 print('Confidence Interval:', CI)
+
+
