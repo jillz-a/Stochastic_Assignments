@@ -81,7 +81,7 @@ plt.ylabel('Cycles to failure')
 mean = np.mean(MTTF)
 var = np.var(MTTF)
 
-CI = (mean - 1.96 * np.sqrt(var / 2000), mean + 1.96 * np.sqrt(var / 2000))
+CI = (mean - 1.96 * np.sqrt(var / 5000), mean + 1.96 * np.sqrt(var / 5000))
 print('Mean Time To Failure:', mean)
 print('Confidence Interval:', CI)
 
