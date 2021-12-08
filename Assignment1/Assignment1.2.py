@@ -31,30 +31,33 @@ for i in range(1,9):
 
 v_total = np.concatenate(v_brakes)
 v_total = v_total[v_total != 0.0]
-# sns.histplot(v_total, binwidth=0.003)
+sns.histplot(v_total, binwidth=0.003)
 
-# plt.show()
+plt.show()
 
 n = len(v_total)
 alpha = np.linspace(0.001, 1, 999)
 
 likelihood = n*(alpha - 1)*sum([np.log(y) for y in v_total])/n - n*alpha - n*np.log(gamma(alpha)) - n*alpha*np.log(sum(v_total)/n) + n*alpha*np.log(alpha)
-# plt.plot(alpha, likelihood)
-# plt.xlabel('alpha')
-# plt.ylabel('Likelihood')
+plt.plot(alpha, likelihood)
+plt.xlabel('alpha')
+plt.ylabel('Likelihood')
 
 #acquried coefficients
 alpha_max = alpha[np.where(likelihood == max(likelihood))]
 beta = (sum(v_total)/n) / alpha_max
+print('alpha found =', alpha_max)
+print('beta found =', beta)
 
 #given coefficients
 alpha_max = 0.2
 beta = 0.02
 
-print('alpha = ',alpha_max)
-print('beta = ',beta)
+print('alpha used = ',alpha_max)
+print('beta used = ',beta)
 
-# plt.axvline(x = alpha_max, label = 'MLE alpha', color = 'r')
+plt.axvline(x = alpha_max, label = 'MLE alpha', color = 'r')
+plt.show()
 
 #Calculate mean time to failure using alpha and beta
 iteration = 0
@@ -76,7 +79,7 @@ while iteration <= 5000:
 plt.plot(MTTF_avg)
 plt.xlabel('iterations')
 plt.ylabel('Cycles to failure')
-# plt.show()
+plt.show()
 
 mean = np.mean(MTTF)
 var = np.var(MTTF)
@@ -121,7 +124,7 @@ scheduled = len([i for i in lst_200 if i <= 1.0])
 unscheduled = len(unscheduled_cycles)
 ratio = unscheduled / scheduled
 mean_unscheduled = np.mean(unscheduled_cycles)
-print('Unscheduled againt schedules replacements ratio:', ratio)
+print('Unscheduled against schedules replacements ratio:', ratio)
 print('Mean number of flight cycles unscheduled:', mean_unscheduled)
 
 mean = np.mean(X_i_lst)

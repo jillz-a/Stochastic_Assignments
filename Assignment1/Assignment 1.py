@@ -87,10 +87,7 @@ while numb_of_runs <= 2000:
             else:
                 t_delay += sep - abs(arrival_time_dist[i] - arrival_time_dist[i + 1])
                 delay = sep - abs(arrival_time_dist[i] - arrival_time_dist[i + 1])
-                # print('old', arrival_time_dist[i+1])
                 arrival_time_dist[i+1] += delay
-                # print('new', arrival_time_dist[i+1])
-    print('new', arrival_time_dist)
     T_delay.append(t_delay)
 
 var = np.var(T_delay)
@@ -99,7 +96,6 @@ print('Total expected delay:', mean)
 print('Variance of the total delay:', var)
 sns.histplot(data=T_delay, binwidth=1)
 plt.xlabel("Total delay [s]")
-# print(T_delay)
 DF = []
 test = []
 for i in range(len(T_delay)):

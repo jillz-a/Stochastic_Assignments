@@ -31,7 +31,7 @@ PI_drone = np.array([[0, 0.27, 0.73, 0, 0],
                     [0, 0.22, 0.57, 0, 0.21],
                     [0, 0, 0.56, 0.44, 0]])
 
-# PI_drone = PI
+PI_drone = PI
 
 # Assignment 1.3 E
 PI_6 = np.linalg.matrix_power(PI, 6)
@@ -80,8 +80,6 @@ while iteration < 500:
         t_intruder += np.random.exponential(scale=1/lam)
         room_intruder = np.random.choice(rooms, p=PI[room_intruder-1])
         intruder_state = np.append(intruder_state, [[t_intruder], [room_intruder]], axis = 1)
-        # intruder_state[0] = np.append(intruder_state[0], t_intruder)
-        # intruder_state[1] = np.append(intruder_state[1], room_intruder)
 
         for t_d in range(len(drone_state[0])-1):
             for t_i in range(len(intruder_state[0])-1):
