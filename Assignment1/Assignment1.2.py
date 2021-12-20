@@ -50,8 +50,8 @@ print('alpha found =', alpha_max)
 print('beta found =', beta)
 
 #given coefficients
-alpha_max = 0.2
-beta = 0.02
+# alpha_max = 0.2
+# beta = 0.02
 
 print('alpha used = ',alpha_max)
 print('beta used = ',beta)
