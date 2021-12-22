@@ -8,7 +8,6 @@ Code written by Jilles Andringa & Mitchell de Keijzer
 '''
 iterations = 0
 
-buisness = True #True if there is a buisness class line, False if not
 wait_time = []  # time a passenger needs to wait
 avg_wait_time = [] # average time a passenger needs to wait
 
@@ -19,7 +18,6 @@ while iterations < 2000:
     #setup intial values
     time = 0  # starting time
     pax_que = [] #passenger que, contains passenger arrival times
-    bsns_que = [] #buisness class passenger que, contains passenger arrival times
     desks = [0,0,0] #available desks, 0 if available, pax_arrival if not
     pax_arrival = 0 #passenger arrival time
 
@@ -37,18 +35,18 @@ while iterations < 2000:
 
         # check if desk has become available
         for i in range(len(desks)):
-            if pax_arrival >= desks[i]:
+            if time >= desks[i]:
                 desks[i] = 0 #reset desk to available
 
         # check for available desks
-        if any(desk == 0 for desk in desks) and len(pax_que) != 0:
+        if any(desk == 0 for desk in desks) and len(pax_que) != 0 and time >= pax_que[0]:
             for i in range(len(desks)):
                 if desks[i] == 0 and len(pax_que) != 0: #assign passenger to an available desk
                     desks[i] = time + np.random.exponential(1) #time when desk will become available again
                     pax_que.remove(pax_que[0]) #passenger is removed from the que
 
         # if all desk are full, note the waiting time
-        elif all(desk != 0 for desk in desks) and len(pax_que) != 0:
+        if all(desk != 0 for desk in desks) and len(pax_que) != 0 and time >= pax_que[0]:
             wait_time.append(abs(min(desks) - pax_que[0]))
 
     if len(wait_time) != 0:
