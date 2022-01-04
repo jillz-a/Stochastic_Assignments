@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 '''
-Assignment 2.1 AE4426-19 Stochastic Processes and Simulation
+Assignment 2.1 f AE4426-19 Stochastic Processes and Simulation
 Code written by Jilles Andringa & Mitchell de Keijzer
 '''
 iterations = 0
@@ -85,11 +85,11 @@ while iterations < 1000:
 
 plt.plot(avg_wait_time)
 plt.plot(avg_bsns_wait_time)
-plt.ylabel('Waiting time in minutes')
+plt.ylabel('Average waiting time in minutes')
 plt.xlabel('Iterations')
 plt.show()
 
-# sns.histplot(wait_time, color= 'r')
+sns.histplot(wait_time, color= 'r')
 sns.histplot(bsns_wait_time, color = 'g')
 plt.xlabel('Waiting time in minutes')
 # plt.xlim(0, 50)
