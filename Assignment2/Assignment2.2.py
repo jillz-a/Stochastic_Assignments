@@ -67,7 +67,7 @@ while iterations < 8000:
 
 mean_times = np.mean(times)
 var_times = np.var(times)
-CI = (mean_times - 1.96 * np.sqrt(var_times / 8000), mean_times + 1.96 * np.sqrt(var_times / 5000))
+CI = (mean_times - 1.96 * np.sqrt(var_times / 8000), mean_times + 1.96 * np.sqrt(var_times / 8000))
 print('L=1000 exceeded at minimum time', mean_times)
 print('Confidence interval:', CI)
 plt.plot(runs, average_time)
@@ -78,7 +78,7 @@ plt.show()
 # 2c
 mean_Yt = np.mean(Yt_list)
 var_Yt = np.var(Yt_list)
-CI = (mean_Yt - 1.96 * np.sqrt(var_Yt / 8000), mean_Yt + 1.96 * np.sqrt(var_Yt / 5000))
+CI = (mean_Yt - 1.96 * np.sqrt(var_Yt / 8000), mean_Yt + 1.96 * np.sqrt(var_Yt / 8000))
 print('Expected level of degradation at t=30:', mean_Yt)
 print('Confidence interval', CI)
 plt.plot(runs, Exp_Yt)
