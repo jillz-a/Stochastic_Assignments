@@ -24,28 +24,28 @@ beta = 3
 sigma = 5
 
 # starting values
-t = 3 # as asked for in the assignment
-SD = np.sqrt(3) # sigma^2 = t - s --> sigma = sqrt(3) for np.random.normal(mu, sigma)
+t = 3            # as asked for in the assignment
+SD = np.sqrt(3)  # sigma^2 = t - s --> sigma = sqrt(3) for np.random.normal(mu, sigma)
 iterations = 0
-X_t = 0 # we are considering X_0 = 0
+X_t = 0          # we are considering X_0 = 0
 
 # lists
-Xt2_list = [] # list for the (X_3)^2 values
-Xt_list = [] # list for the X_3 values
-Exp = [] # list for the mean values of the (X_3)^2 values
-Var = [] # list for the variance values of the X_3 values
-runs = [] # list for the amount of simulation runs
+Xt2_list = []    # list for the (X_3)^2 values
+Xt_list = []     # list for the X_3 values
+Exp = []         # list for the mean values of the (X_3)^2 values
+Var = []         # list for the variance values of the X_3 values
+runs = []        # list for the amount of simulation runs
 
-
+# Start Monte Carlo simulation
 while iterations < 10000:
-    Bt = np.random.normal(0, SD)
-    X_t = (beta * t + sigma * Bt)
-    Xt2_list.append(X_t ** 2)
-    Xt_list.append(X_t)
-    Exp.append(np.mean(Xt2_list))
-    Var.append(np.var(Xt_list))
+    Bt = np.random.normal(0, SD)   # standard Brownian motion
+    X_t = (beta * t + sigma * Bt)  # degradation formula
+    Xt2_list.append(X_t ** 2)      # add X_t squared to the list
+    Xt_list.append(X_t)            # add X-t to the list
+    Exp.append(np.mean(Xt2_list))  # add the mean value up till current iteration for all X_t squared values
+    Var.append(np.var(Xt_list))    # add the variance up till current iteration for all X_t values
     runs.append(iterations)
-    if iterations == 10:
+    if iterations == 10:  # results after 10 iterations
         print('E[(X_3)^2] at 10 runs:', np.mean(Xt2_list))
         print('Var(X_3) at 10 runs:', np.var(Xt_list))
         plt.subplot(3, 2, 1)
@@ -54,10 +54,7 @@ while iterations < 10000:
         plt.subplot(3, 2, 2)
         plt.plot(runs, Exp)
         plt.title("Expectation")
-        # plt.xlabel('Simulation run')
-        # plt.ylabel('Variance of X_t')
-        # plt.show()
-    if iterations == 100:
+    if iterations == 100:  # results after 100 iterations
         print('E[(X_3)^2] at 100 runs:', np.mean(Xt2_list))
         print('Var(X_3) at 100 runs:', np.var(Xt_list))
         plt.subplot(3, 2, 3)
@@ -66,43 +63,38 @@ while iterations < 10000:
         plt.subplot(3, 2, 4)
         plt.plot(runs, Exp)
         plt.ylabel('Expectation of the squared X-value for t = 3 [-]')
-        # plt.xlabel('Simulation run')
-
-        # plt.show()
     iterations += 1
 
+# results after 10000 iterations
 print('E[(X_3)^2] at 10000 runs = ', np.mean(Xt2_list))
-CI = (np.mean(Xt2_list) - 1.96 * np.sqrt(np.var(Xt2_list) / 10000), np.mean(Xt2_list) + 1.96 * np.sqrt(np.var(Xt2_list) / 10000))
+CI = (np.mean(Xt2_list) - 1.96 * np.sqrt(np.var(Xt2_list) / 10000),
+      np.mean(Xt2_list) + 1.96 * np.sqrt(np.var(Xt2_list) / 10000))
 print('CI', CI)
 print('Var(X_3) at 10000 runs = ', np.var(Xt_list))
 
 plt.subplot(3, 2, 5)
 plt.xlabel('Simulation run [-]')
-# plt.ylabel('Variance of X_t')
 plt.plot(runs, Var)
 plt.subplot(3, 2, 6)
 plt.xlabel('Simulation run [-]')
 plt.plot(runs, Exp)
 plt.show()
 
-# plt.plot(runs, Exp)
-# plt.xlabel('Simulation run')
-# plt.ylabel('Average (X_t)^2 value')
-# plt.show()
-
-
-# plt.hist(Xt_list)
+# create histogram empirical distribution
 sns.histplot(data=Xt_list, binwidth=1)
 plt.xlabel('X-value [-]')
 plt.show()
 
-dirac = []
-for i in range(len(Xt_list)):
-    px = 1 / (i + 1) * Xt_list[i]
-    dirac.append(px)
-
+# create Dirac empirical distribution
 y = np.ones(len(Xt_list))
-plt.stem(dirac, y)
+plt.subplot(3, 1, 1)
+plt.stem(Xt_list[:10], y[:10])
+plt.xlim([-25, 45])
+plt.subplot(3, 1, 2)
+plt.stem(Xt_list[:100], y[:100])
+plt.xlim([-25, 45])
+plt.subplot(3, 1, 3)
+plt.stem(Xt_list, y)
+plt.xlabel('X-value [-]')
+plt.xlim([-25, 45])
 plt.show()
-
-

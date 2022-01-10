@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import statistics
 
 '''
 Assignment 2.2 AE4426-19 Stochastic Processes and Simulation
@@ -16,37 +15,29 @@ e_t: measurement error, independent of e_(t-1), ..., e_0.
 
 np.random.seed(1)
 
-# 2b&c
-iterations = 0
-runs = []
+# constants
 A = np.array([[1, 0], [1, 1]])
 B = np.array([[1], [0.1]])
 C = np.array([1, 1])
-X_t = np.array([[0], [0]]) # = X_0
-t = 0
-times = [] # lists all first times when the measured level of degradation exceeds L=1000
-average_time = []
-Yt_list = [] # lists all Y_t values at t=30
-Exp_Yt = [] # gives the average of all current Y_t values in Yt_list
 
-X_1 = []
-X_2 = []
-X_avg_1 = []
-X_avg_2 = []
-X = []
+# starting values
+X_t = np.array([[0], [0]])  # = X_0
+t = 0
+iterations = 0
+
+# lists
+times = []          # list for all first times when the measured level of degradation exceeds L=1000
+average_time = []   # list for the mean values of the times list
+Yt_list = []        # list for all Y_t values at t=30
+Exp_Yt = []         # list for the average of all current Y_t values in Yt_list
+runs = []           # list for the iteration number
 
 # Monte carlo simulation
 while iterations < 8000:
     V_t = np.array([[np.random.normal(0, 1)], [np.random.normal(0, 1)]])
     e_t = np.random.normal(0, 0.1)
     Y_t = np.matmul(C, X_t) + e_t
-    X_t = np.matmul(A, X_t) + B + V_t # X_{t+1}
-    # if t == 2: # X_{t+1} = X_3
-    #     X_1.append(X_t[0][0])
-    #     X_2.append(X_t[1][0])
-    #     X_avg_1.append(np.mean(X_1))
-    #     X_avg_2.append(np.mean(X_2))
-    #     X.append(X_t)
+    X_t = np.matmul(A, X_t) + B + V_t  # X_{t+1} equation
     if t == 30:
         Yt_list.append(Y_t)
         Exp_Yt.append(np.mean(Yt_list))
@@ -55,16 +46,11 @@ while iterations < 8000:
         average_time.append(np.mean(times))
         runs.append(iterations)
         iterations += 1
-        X_t = np.array([[0], [0]])
-        t = 0
+        X_t = np.array([[0], [0]])  # set X_t value back to X_0
+        t = 0                       # set t value back to 0
     t += 1
 
-# plt.plot(runs, X_avg_1)
-# plt.plot(runs, X_avg_2)
-# plt.xlabel("Simulation runs")
-# plt.ylabel("X")
-# plt.show()
-
+# results b
 mean_times = np.mean(times)
 var_times = np.var(times)
 CI = (mean_times - 1.96 * np.sqrt(var_times / 8000), mean_times + 1.96 * np.sqrt(var_times / 8000))
@@ -75,7 +61,7 @@ plt.xlabel("Simulation runs")
 plt.ylabel("Time")
 plt.show()
 
-# 2c
+# results c
 mean_Yt = np.mean(Yt_list)
 var_Yt = np.var(Yt_list)
 CI = (mean_Yt - 1.96 * np.sqrt(var_Yt / 8000), mean_Yt + 1.96 * np.sqrt(var_Yt / 8000))
