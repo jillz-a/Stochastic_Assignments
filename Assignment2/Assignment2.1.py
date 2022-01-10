@@ -1,6 +1,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from Definitions import mean_confidence_interval
 
 '''
 Assignment 2.1 AE4426-19 Stochastic Processes and Simulation
@@ -12,7 +13,7 @@ wait_time = []  # time a passenger needs to wait
 avg_wait_time = [] # average time a passenger needs to wait
 
 #Monte Carlo simulation
-while iterations < 2000:
+while iterations < 1500:
     iterations += 1
 
     #setup intial values
@@ -61,3 +62,7 @@ plt.show()
 sns.histplot(wait_time)
 plt.xlabel('Waiting time in minutes')
 plt.show()
+
+m, m_min, m_plus = mean_confidence_interval(wait_time)
+
+print(m, m-m_min, m-m_plus)

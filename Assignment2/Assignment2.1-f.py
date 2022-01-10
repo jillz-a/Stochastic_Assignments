@@ -1,6 +1,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from Definitions import mean_confidence_interval
 
 '''
 Assignment 2.1 f AE4426-19 Stochastic Processes and Simulation
@@ -16,7 +17,7 @@ amount_of_pax = [] #total amount of passengers who entered the que for every ite
 amount_of_bsns = [] #total amount of business passengers who entered the que for every iteration
 
 #Monte Carlo simulation
-while iterations < 1000:
+while iterations <= 1500:
     iterations += 1
 
     #setup intial values
@@ -89,8 +90,15 @@ plt.ylabel('Average waiting time in minutes')
 plt.xlabel('Iterations')
 plt.show()
 
-sns.histplot(wait_time, color= 'r')
-sns.histplot(bsns_wait_time, color = 'g')
+sns.histplot(wait_time, color= 'g')
+sns.histplot(bsns_wait_time, color = 'r')
 plt.xlabel('Waiting time in minutes')
 # plt.xlim(0, 50)
 plt.show()
+
+m, m_min, m_plus = mean_confidence_interval(wait_time)
+print('passenger average wait time:', m, m-m_min, m-m_plus)
+
+m, m_min, m_plus = mean_confidence_interval(bsns_wait_time)
+print('business passenger average wait time:', m, m-m_min, m-m_plus)
+
